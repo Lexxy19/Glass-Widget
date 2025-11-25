@@ -1,0 +1,329 @@
+/* src/App.css */
+:root {
+  font-family: "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
+  user-select: none;
+  cursor: default;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: transparent; /* Importante para widget */
+   -webkit-app-region: drag;
+}
+
+.card {
+  position: relative;
+  overflow: hidden;              /* Para que el borde redondo recorte bien */
+  border-radius: 40px;
+
+  /* Layout y Dimensiones */
+  min-width: 200px;
+  max-width: 400px;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  padding: 12px 24px;
+  box-sizing: border-box;
+  margin: 30px;
+  -webkit-app-region: drag;
+
+  /* Animación */
+  animation: floatIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* 🔮 Capa de “vidrio líquido” solo para el fondo */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+
+  /* --- EL CAMBIO MÁGICO --- */
+  /* En lugar de negro a negro, vamos de blanco transparente a negro transparente */
+  background: linear-gradient(
+    135deg, 
+    rgba(255, 255, 255, 0.15) 0%,  /* Luz/Niebla superior izquierda */
+    rgba(255, 255, 255, 0.05) 40%, /* Transición suave */
+    rgba(0, 0, 0, 0.4) 100%        /* Sombra inferior para legibilidad */
+  );
+
+  /* Aumenté el blur y la saturación para dar ese look "premium" */
+  backdrop-filter: blur(50px) saturate(200%) brightness(1.1);
+  -webkit-backdrop-filter: blur(50px) saturate(200%) brightness(1.1);
+
+  /* Borde más refinado: más visible arriba (luz), menos abajo */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+  /* Sombra interna para dar volumen 3D al vidrio */
+  box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.05);
+
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Todo el contenido del player por encima del vidrio */
+.card > * {
+  position: relative;
+  z-index: 1;
+}
+
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  -webkit-app-region: no-drag; /* Permite la interacción con los elementos internos */
+}
+
+.icon-container {
+  width: 70px;
+  height: 70px;
+  border-radius: 16px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.1);
+  flex-shrink: 0;
+  -webkit-app-region: drag;
+  /* Fondo de respaldo en caso de que la imagen no se cargue */
+  background-color: rgba(255,255,255,0.1);
+  background-blend-mode: overlay;
+}
+
+.text-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  gap: 2px;
+  -webkit-app-region: drag;
+}
+
+h1 {
+  font-size: 15px;
+  margin: 0;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px; /* Ajusta este valor según el espacio disponible */
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  display: block;
+  position: relative;
+}
+
+h1::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 1.5em; /* Espacio para los puntos suspensivos */
+  pointer-events: none;
+}
+
+p {
+  font-size: 13px;
+  margin: 0;
+  margin-right: 15px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+  text-overflow: ellipsis;
+   -webkit-app-region: drag;
+}
+
+/* Wave Animation */
+.wave-container {
+  display: flex;
+  align-items: flex-end;
+  height: 20px;
+  gap: 3px;
+  margin-top: 6px;
+  -webkit-app-region: drag;
+}
+
+.wave-bar {
+  width: 10px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 2px;
+  animation: wave 1.2s ease-in-out infinite;
+  animation-play-state: running;
+  transform-origin: bottom;
+}
+
+.wave-container.paused .wave-bar {
+  animation-play-state: paused;
+  opacity: 0.6;
+  transform: scaleY(0.5);
+}
+
+.wave-bar:nth-child(1) { animation-delay: 0.1s; height: 6px; }
+.wave-bar:nth-child(2) { animation-delay: 0.3s; height: 8px; }
+.wave-bar:nth-child(3) { animation-delay: 0.5s; height: 10px; }
+.wave-bar:nth-child(4) { animation-delay: 0.3s; height: 8px; }
+.wave-bar:nth-child(5) { animation-delay: 0.3s; height: 6px; }
+.wave-bar:nth-child(6) { animation-delay: 0.1s; height: 10px; }
+.wave-bar:nth-child(7) { animation-delay: 0.5s; height: 6px; }
+.wave-bar:nth-child(8) { animation-delay: 0.8s; height: 8px; }
+
+@keyframes wave {
+  0%, 100% {
+    transform: scaleY(0.5);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scaleY(1.5);
+    opacity: 1;
+  }
+}
+
+/* --- Reemplaza desde .controls hacia abajo --- */
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Un poco más de espacio */
+  margin-left: auto;
+  padding-left: 10px;
+  /* Eliminamos el borde izquierdo rígido, usamos un gradiente sutil si quieres separación */
+  border-left: 1px solid rgba(255, 255, 255, 0.05); 
+  height: 40px; /* Altura fija para centrar verticalmente */
+  -webkit-app-region: no-drag;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  color: rgba(255, 255, 255, 0.9); /* Blanco casi puro */
+  -webkit-app-region: no-drag;
+  background: transparent; /* Por defecto transparentes */
+  padding: 0;
+}
+
+/* Botones secundarios (Atrás / Siguiente / Shuffle / Estrella) */
+.btn-secondary {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.5); /* Desactivados se ven grises */
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 1); /* Al pasar el mouse brillan */
+  transform: scale(1.1);
+  /* Un pequeño destello */
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.btn-secondary:active {
+  transform: scale(0.95);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* --- EL BOTÓN DE PLAY (La Joya) --- */
+.btn-primary {
+  width: 46px; /* Un poco más grande */
+  height: 46px;
+  border-radius: 50%;
+  
+  /* ESTILO FLOTANTE (Glassy) */
+  background: rgba(255, 255, 255, 0.1); /* Muy sutil */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  
+  /* Borde brillante fino */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-top: 1px solid rgba(255, 255, 255, 0.3); /* Luz cenital */
+  
+  /* Sombra para elevarlo */
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.3),
+    inset 0 0 10px rgba(255, 255, 255, 0.05);
+    
+  color: white;
+}
+
+.btn-primary:hover {
+  background: rgba(255, 255, 255, 0.2); /* Más luz */
+  transform: scale(1.05) translateY(-1px); /* Levita un poco */
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.4), /* Sombra más lejos */
+    inset 0 0 12px rgba(255, 255, 255, 0.1),
+    0 0 15px rgba(255, 255, 255, 0.2); /* GLOW EXTERNO */
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-primary:active {
+  transform: scale(0.95) translateY(0);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Iconos SVG dentro de los botones */
+button svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor; /* Hereda el color del botón */
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); /* Sombra al icono mismo */
+}
+
+/* Ajuste específico para icono play que suele verse descentrado */
+.btn-primary svg {
+  width: 24px;
+  height: 24px;
+  margin-left: 2px; /* Corrección óptica */
+}
+
+/* Animaciones de fade para el título y artista */
+@keyframes fadeIn {
+  from { 
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to { 
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 1.3s ease-out forwards;
+}
+
+.fade-out {
+  animation: fadeOut 1s ease-out forwards;
+}
