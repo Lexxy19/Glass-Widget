@@ -116,7 +116,7 @@ function App() {
         ></div>
         <div className="text-info">
           <h1 className={isAnimating ? "fade-out" : "fade-in"}>
-            {song.title || "Sin música"}
+            <span>{song.title || "Sin música"}</span>
           </h1>
           <p className={isAnimating ? "fade-out" : "fade-in"}>
             {song.artist || "Reproductor inactivo"}
