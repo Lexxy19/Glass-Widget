@@ -15,17 +15,16 @@ Puedes descargar la última versión del instalador desde aquí:
 ## ✨ Características
 
 - 💻 Funciona con Spotify, YouTube Music, Navegador o Reproductor nativo de windows.
-- 🎶 Interfaz moderna con efecto glassmorphism
+- 🎶 Interfaz con efecto glassmorphism
 - ⚡ Construido con Tauri para rendimiento nativo
-- 🎨 Diseño responsivo que se adapta a cualquier tamaño de pantalla
 - 🔄 Controles de reproducción de música en tiempo real
-- 🎧 Visualización de audio con barras animadas tipo “wave”
+- 🎧 Barras animadas tipo “wave”
 - 🚀 Ligero y muy rápido
 
 ## 🛠️ Stack Tecnológico
 
 - **Frontend**: React 19 + TypeScript
-- **UI**: CSS vanilla personalizado con efectos glassmórficos
+- **UI**: CSS vanilla personalizado 
 - **Íconos**: Lucide Icons
 - **Herramienta de build**: Vite
 - **Escritorio**: Tauri (para aplicaciones de escritorio multiplataforma)
