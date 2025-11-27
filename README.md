@@ -51,6 +51,7 @@ reproduciendo
 
 5. Estructura del proyecto
 glass-widget/
+
 ├── src/                  # Código fuente de la aplicación React
 │   ├── assets/           # Recursos estáticos (imágenes, fuentes, etc.)
 │   ├── App.tsx           # Componente principal de la aplicación
