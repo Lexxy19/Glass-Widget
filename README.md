@@ -9,7 +9,7 @@ reproduciendo
 
 Puedes descargar la última versión del instalador desde aquí:
 
-[Descargar glass-widget_0.1.0_x64-setup.exe](glass-widget_0.1.0_x64-setup.exe)
+[Descargar glass-widget_0.1.0_x64-setup.exe](https://github.com/Lexxy19/Glass-Widget/releases/download/0.1.0/glass-widget_0.1.0_x64-setup.exe)
 
 
 ## ✨ Características
