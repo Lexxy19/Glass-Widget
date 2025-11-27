@@ -1,8 +1,8 @@
 # 🎵 Glass Widget Media Player
 
 Un widget de control de música moderno y minimalista construido con Tauri, React y TypeScript, con un elegante diseño glassmórfico.
-Basicamente la aplicación hace una sincronización en tiempo real con el Media Manager de Windows para obtener lo que se está 
-reproduciendo 
+Basicamente la aplicación hace una sincronización en tiempo real con el Media Manager de Windows para obtener lo que se está reproduciendo.
+
 ![Screenshot](screenshot.png)
 
 ## 📥 Descarga
