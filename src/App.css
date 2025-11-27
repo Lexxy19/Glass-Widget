@@ -1,11 +1,14 @@
-/* src/App.css */
+/* =========================
+   Configuración global
+   ========================= */
 :root {
   font-family: "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
   user-select: none;
   cursor: default;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100vh;
@@ -14,16 +17,19 @@ html, body {
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  background: transparent; /* Importante para widget */
-   -webkit-app-region: drag;
+  background: transparent; /* Fondo transparente para usar como widget flotante */
+  -webkit-app-region: drag;
 }
 
+/* =========================
+   Tarjeta principal (widget)
+   ========================= */
 .card {
   position: relative;
-  overflow: hidden;              /* Para que el borde redondo recorte bien */
+  overflow: hidden;            /* El borde redondeado recorta correctamente el contenido */
   border-radius: 40px;
 
-  /* Layout y Dimensiones */
+  /* Layout y dimensiones */
   min-width: 200px;
   max-width: 400px;
   width: fit-content;
@@ -35,58 +41,60 @@ html, body {
   margin: 30px;
   -webkit-app-region: drag;
 
-  background: rgba(0, 0, 0, 0.1); /* Muy sutil */
+  /* Base del efecto vidrio */
+  background: rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  
 }
 
-/* 🔮 Capa de “vidrio líquido” solo para el fondo */
+/* Capa de vidrio líquido que da profundidad al fondo */
 .card::before {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
 
-  /* --- EL CAMBIO MÁGICO --- */
-  /* En lugar de negro a negro, vamos de negro transparente a blanco transparente */
+  /* Gradiente que combina sombra superior y luz inferior */
   background: linear-gradient(
-    190deg, 
-    rgba(0, 0, 0, 0.4) 0%,         /* Sombra superior para legibilidad */
-    rgba(255, 255, 255, 0.05) 90%, /* Transición suave */
-    rgba(255, 255, 255, 0.15) 100% /* Luz/Niebla inferior derecha */
+    190deg,
+    rgba(0, 0, 0, 0.4) 0%,
+    rgba(255, 255, 255, 0.05) 90%,
+    rgba(255, 255, 255, 0.15) 100%
   );
 
-  /* Aumenté el blur y la saturación para dar ese look "premium" */
+  /* Blur y saturación para el efecto vidrio */
   backdrop-filter: blur(50px) saturate(200%) brightness(1.1);
   -webkit-backdrop-filter: blur(50px) saturate(200%) brightness(1.1);
 
-  /* Borde más refinado: más visible arriba (luz), menos abajo */
+  /* Borde superior más marcado para simular luz, inferior más suave */
   border-top: 1px solid rgba(255, 255, 255, 0.288);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 
-  /* Sombra interna para dar volumen 3D al vidrio */
+  /* Sombra interna para dar volumen al panel */
   box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05);
 
   pointer-events: none;
   z-index: 0;
 }
 
-/* Todo el contenido del player por encima del vidrio */
+/* Todo el contenido del reproductor va por encima del vidrio */
 .card > * {
   position: relative;
   z-index: 1;
 }
 
-
+/* =========================
+   Layout de contenido
+   ========================= */
 .content {
   display: flex;
   align-items: center;
   gap: 16px;
   width: 100%;
-  -webkit-app-region: no-drag; /* Permite la interacción con los elementos internos */
+  -webkit-app-region: no-drag; /* Permite interacción con los elementos internos */
 }
 
+/* Portada / carátula de la canción */
 .icon-container {
   width: 70px;
   height: 70px;
@@ -94,15 +102,17 @@ html, body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   flex-shrink: 0;
   -webkit-app-region: drag;
-  /* Fondo de respaldo en caso de que la imagen no se cargue */
-  background-color: rgba(255,255,255,0.1);
+
+  /* Color de respaldo si la imagen no carga */
+  background-color: rgba(255, 255, 255, 0.1);
   background-blend-mode: overlay;
 }
 
+/* Contenedor de texto (título, artista y wave) */
 .text-info {
   display: flex;
   flex-direction: column;
@@ -112,6 +122,9 @@ html, body {
   -webkit-app-region: drag;
 }
 
+/* =========================
+   Tipografía: título y artista
+   ========================= */
 h1 {
   font-size: 15px;
   margin: 0;
@@ -120,45 +133,55 @@ h1 {
   letter-spacing: 0.3px;
   white-space: nowrap;
   overflow: hidden;
-  max-width: 100px; 
-  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  max-width: 100px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   display: block;
   position: relative;
-  mask-image: linear-gradient(90deg, transparent 0%, black 0%, black 90%, transparent 100%);
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    black 0%,
+    black 90%,
+    transparent 100%
+  );
 }
 
 h1::after {
-  content: '';
+  content: "";
   position: absolute;
   right: 0;
   top: 0;
   bottom: 0;
-  width: 1.5em; 
+  width: 1.5em;
   pointer-events: none;
-  
 }
 
-/* 1. Preparamos el span interno */
+/* Texto interno del título usado para el scroll horizontal */
 h1 span {
   display: inline-block;
   padding-right: 0;
-  transition: transform 0.3s ease-out; /* Regreso suave */
+  transition: transform 0.3s ease-out;
 }
 
+/* Scroll suave del título al pasar el cursor */
 h1:hover span {
   display: inline-block;
-  /* El padding derecho define el "hueco" entre el final del texto y el inicio del loop.
-     30px es suficiente para que se distinga, sin dejar segundos de vacío. */
-  padding-right: 30px; 
-  
-  /* Velocidad: 8s es lento y legible. 'linear' evita tirones. */
-  animation: scroll-text 8s linear infinite; 
+  padding-right: 30px; /* Espacio entre final de texto y reinicio */
+  animation: scroll-text 8s linear infinite;
 }
 
 @keyframes scroll-text {
-  0%, 2% { transform: translateX(0); } /* Espera al inicio */
-  50%, 65% { transform: translateX(calc(-110% + 150px)); } /* Va al final y espera (ajusta 150px al ancho de tu h1) */
-  100% { transform: translateX(0); } /* Vuelve suave al inicio */
+  0%,
+  2% {
+    transform: translateX(0);
+  }
+  50%,
+  65% {
+    transform: translateX(calc(-110% + 150px)); /* Ajustar 150px al ancho del h1 si es necesario */
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 p {
@@ -171,11 +194,12 @@ p {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100px;
-  text-overflow: ellipsis;
-   -webkit-app-region: drag;
+  -webkit-app-region: drag;
 }
 
-/* Wave Animation */
+/* =========================
+   Animación de barras de audio (wave)
+   ========================= */
 .wave-container {
   display: flex;
   align-items: flex-end;
@@ -187,7 +211,7 @@ p {
 
 .wave-bar {
   width: 10px;
-  height: 4px; /* valor base, se sobreescribe desde React */
+  height: 4px; /* Valor base, luego se sobreescribe desde React */
   background: rgba(255, 255, 255, 0.6);
   border-radius: 2px;
   animation: wave 1.2s ease-in-out infinite;
@@ -195,15 +219,16 @@ p {
   transform-origin: bottom;
 }
 
+/* Estado pausado de la animación cuando la música no está reproduciendo */
 .wave-container.paused .wave-bar {
   animation-play-state: paused;
   opacity: 0.6;
   transform: scaleY(0.5);
 }
 
-
 @keyframes wave {
-  0%, 100% {
+  0%,
+  100% {
     transform: scaleY(0.5);
     opacity: 0.6;
   }
@@ -213,20 +238,20 @@ p {
   }
 }
 
-
+/* =========================
+   Controles de reproducción
+   ========================= */
 .controls {
   display: flex;
   align-items: center;
-  gap: 10px; /* Un poco más de espacio */
+  gap: 10px;
   margin-left: auto;
   padding-left: 10px;
-  /* Eliminamos el borde izquierdo rígido, usamos un gradiente sutil si quieres separación */
-  
-  height: 40px; /* Altura fija para centrar verticalmente */
+  height: 40px; /* Altura fija para centrar contenidos */
   -webkit-app-region: no-drag;
-
 }
 
+/* Estilo base de todos los botones */
 button {
   border: none;
   cursor: pointer;
@@ -234,25 +259,24 @@ button {
   align-items: center;
   justify-content: center;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  color: rgba(255, 255, 255, 0.9); /* Blanco casi puro */
+  color: rgba(255, 255, 255, 0.9);
   -webkit-app-region: no-drag;
-  background: transparent; /* Por defecto transparentes */
+  background: transparent;
   padding: 0;
 }
 
-/* Botones secundarios (Atrás / Siguiente / Shuffle / Estrella) */
+/* Botones secundarios (anterior / siguiente) */
 .btn-secondary {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  color: rgba(255, 255, 255, 0.5); /* Desactivados se ven grises */
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .btn-secondary:hover {
   background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 1); /* Al pasar el mouse brillan */
+  color: rgba(255, 255, 255, 1);
   transform: scale(1.1);
-  /* Un pequeño destello */
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
 }
 
@@ -261,36 +285,36 @@ button {
   background: rgba(255, 255, 255, 0.05);
 }
 
-/* --- EL BOTÓN DE PLAY (La Joya) --- */
+/* Botón principal de play/pause */
 .btn-primary {
-  width: 46px; /* Un poco más grande */
+  width: 46px;
   height: 46px;
   border-radius: 50%;
-  
-  /* ESTILO FLOTANTE (Glassy) */
-  background: rgba(255, 255, 255, 0.1); /* Muy sutil */
+
+  /* Estilo glass flotante */
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  
-  /* Borde brillante fino */
+
+  /* Borde con luz superior */
   border: 1px solid rgba(255, 255, 255, 0.15);
-  border-top: 1px solid rgba(255, 255, 255, 0.3); /* Luz cenital */
-  
-  /* Sombra para elevarlo */
-  box-shadow: 
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+
+  /* Sombra para dar sensación de elevación */
+  box-shadow:
     0 4px 12px rgba(0, 0, 0, 0.3),
     inset 0 0 10px rgba(255, 255, 255, 0.05);
-    
+
   color: white;
 }
 
 .btn-primary:hover {
-  background: rgba(255, 255, 255, 0.2); /* Más luz */
-  transform: scale(1.05) translateY(-1px); /* Levita un poco */
-  box-shadow: 
-    0 8px 20px rgba(0, 0, 0, 0.4), /* Sombra más lejos */
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05) translateY(-1px);
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.4),
     inset 0 0 12px rgba(255, 255, 255, 0.1),
-    0 0 15px rgba(255, 255, 255, 0.2); /* GLOW EXTERNO */
+    0 0 15px rgba(255, 255, 255, 0.2);
   border-color: rgba(255, 255, 255, 0.5);
 }
 
@@ -305,39 +329,42 @@ button svg {
   width: 20px;
   height: 20px;
   fill: currentColor; /* Hereda el color del botón */
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); /* Sombra al icono mismo */
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
-/* Ajuste específico para icono play que suele verse descentrado */
+/* Ajuste específico para el icono de play */
 .btn-primary svg {
   width: 24px;
   height: 24px;
-  margin-left: 2px; /* Corrección óptica */
+  margin-left: 2px; /* Corrección óptica para centrarlo visualmente */
 }
 
-/* Animaciones de fade para el título y artista */
+/* =========================
+   Animaciones de fade
+   ========================= */
 @keyframes fadeIn {
-  from { 
+  from {
     opacity: 0;
     transform: translateY(5px);
   }
-  to { 
+  to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
 @keyframes fadeOut {
-  from { 
+  from {
     opacity: 1;
     transform: translateY(0);
   }
-  to { 
+  to {
     opacity: 0;
     transform: translateY(-5px);
   }
 }
 
+/* Clases para transiciones de entrada y salida de texto */
 .fade-in {
   animation: fadeIn 1.3s ease-out forwards;
 }

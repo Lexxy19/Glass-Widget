@@ -15,7 +15,7 @@ async fn get_session() -> Result<windows::Media::Control::GlobalSystemMediaTrans
     manager.GetCurrentSession().map_err(|_| "No session".to_string())
 }
 
-// 1. LEER INFO (Ahora incluye si está pausado o no)
+// 1. LEER INFO 
 #[tauri::command]
 async fn check_music() -> std::result::Result<serde_json::Value, String> {
     let session = match get_session().await {
@@ -39,7 +39,7 @@ async fn check_music() -> std::result::Result<serde_json::Value, String> {
     }))
 }
 
-// 2. CONTROLAR MÚSICA (Nueva función)
+// 2. CONTROLAR MÚSICA 
 #[tauri::command]
 async fn control_media(action: String) -> Result<(), String> {
     let session = get_session().await?;

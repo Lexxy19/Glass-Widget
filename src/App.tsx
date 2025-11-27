@@ -11,20 +11,23 @@ interface SongInfo {
   is_playing: boolean;
 }
 
-/** Configuración de cada barrita de la wave */
+/** Configuración visual de cada barra de la animación de audio */
 interface WaveBarConfig {
-  height: number; // en px
-  delay: number;  // en segundos
+  height: number;
+  delay: number;
 }
 
-/** Genera un patrón aleatorio de barras */
+/**
+ * Genera un patrón aleatorio de barras para la animación
+ * @param bars Número de barras a generar
+ */
 const generateWaveConfig = (bars: number = 8): WaveBarConfig[] => {
   const result: WaveBarConfig[] = [];
 
   for (let i = 0; i < bars; i++) {
-    // altura entre 4px y 14px aprox
+    // Altura entre 6px y 16px
     const height = 6 + Math.floor(Math.random() * 10);
-    // delay entre 0s y 0.8s
+    // Delay entre 0s y 0.8s
     const delay = Number((Math.random() * 0.8).toFixed(2));
 
     result.push({ height, delay });
@@ -33,6 +36,9 @@ const generateWaveConfig = (bars: number = 8): WaveBarConfig[] => {
   return result;
 };
 
+/**
+ * Renderiza las barras de la animación según el patrón recibido
+ */
 const WaveAnimation = ({
   isPlaying,
   config,
@@ -63,13 +69,15 @@ function App() {
     is_playing: false,
   });
 
+  // Controla la transición de fade-in/fade-out del título y el artista
   const [isAnimating, setIsAnimating] = useState(false);
 
-  /** Estado del patrón actual de la wave */
+  // Patrón actual de barras para la animación de audio
   const [waveConfig, setWaveConfig] = useState<WaveBarConfig[]>(() =>
     generateWaveConfig()
   );
 
+  // Consulta periódicamente al backend para mantener la canción sincronizada
   useEffect(() => {
     const interval = setInterval(async () => {
       try {
@@ -77,38 +85,43 @@ function App() {
         setSong(info);
       } catch (e) {}
     }, 1000);
+
     return () => clearInterval(interval);
   }, []);
 
+  /**
+   * Envía comandos de control al backend y sincroniza el estado local
+   * Maneja play/pause, anterior y siguiente, además del patrón de barras
+   */
   const sendControl = async (action: string) => {
     if (action === "play_pause") {
       setSong((prev) => ({ ...prev, is_playing: !prev.is_playing }));
       await invoke("control_media", { action });
     } else if (action === "prev" || action === "next") {
-      // 1. Fade-out del texto actual
+      // Inicia el fade-out del texto actual
       setIsAnimating(true);
 
-      // 2. Cambiamos canción en el backend
+      // Cambia de pista en el backend
       await invoke("control_media", { action });
 
-      // 3. Esperamos a que termine el fade-out
+      // Espera a que termine el fade-out
       await new Promise((resolve) => setTimeout(resolve, 330));
 
-      // 4. Obtenemos info de la nueva canción
+      // Actualiza la información de la nueva canción
       const newInfo = await invoke<SongInfo>("check_music");
       setSong(newInfo);
 
-      // 5. Generamos un nuevo patrón de wave SOLO cuando cambias de canción
+      // Regenera el patrón de barras para la nueva pista
       setWaveConfig(generateWaveConfig());
 
-      // 6. Volvemos a hacer fade-in del texto
+      // Activa el fade-in del texto
       setIsAnimating(false);
     }
   };
 
   return (
     <div className="card">
-      {/* Lado Izquierdo */}
+      {/* Panel de información de la canción y animación */}
       <div className="content">
         <div
           style={{ backgroundImage: `url(${portada})` }}
@@ -122,12 +135,12 @@ function App() {
             {song.artist || "Reproductor inactivo"}
           </p>
 
-          {/* Ahora la wave recibe el patrón aleatorio */}
+          {/* Animación de barras usando el patrón actual */}
           <WaveAnimation isPlaying={song.is_playing} config={waveConfig} />
         </div>
       </div>
 
-      {/* Lado Derecho */}
+      {/* Controles de reproducción */}
       <div className="controls">
         <button className="btn-secondary" onClick={() => sendControl("prev")}>
           <SkipBack size={20} fill="currentColor" />
