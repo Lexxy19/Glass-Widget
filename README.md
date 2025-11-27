@@ -50,16 +50,18 @@ reproduciendo
     npm run tauri build 
 
 5. Estructura del proyecto
-glass-widget/
-src/                  # Código fuente de la aplicación React
-assets/           # Recursos estáticos (imágenes, fuentes, etc.)
-App.tsx           # Componente principal de la aplicación
-main.tsx          # Punto de entrada de la aplicación
-App.css           # Estilos globales
-src-tauri/        # Configuración de Tauri
-src/
-main.rs           # Punto de entrada de la app Tauri
-tauri.conf.json   # Configuración de Tauri
-public/           # Recursos públicos
-index.html        # HTML principal
+   ```bash
+   glass-widget/
+├── src/                  # Código fuente de la aplicación React
+│   ├── assets/           # Recursos estáticos (imágenes, fuentes, etc.)
+│   ├── App.tsx           # Componente principal de la aplicación
+│   ├── main.tsx          # Punto de entrada de la aplicación
+│   └── App.css           # Estilos globales
+├── src-tauri/            # Configuración de Tauri
+│   ├── src/
+│   │   └── main.rs       # Punto de entrada de la app Tauri
+│   └── tauri.conf.json   # Configuración de Tauri
+├── public/               # Recursos públicos
+├── index.html            # HTML principal
+└── package.json          # Dependencias y scripts del proyecto
 
