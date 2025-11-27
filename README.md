@@ -5,6 +5,13 @@ Basicamente la aplicación hace una sincronización en tiempo real con el Media 
 reproduciendo 
 ![Screenshot](screenshot.png)
 
+## 📥 Descarga
+
+Puedes descargar la última versión del instalador desde aquí:
+
+[Descargar glass-widget_0.1.0_x64-setup.exe](glass-widget_0.1.0_x64-setup.exe)
+
+
 ## ✨ Características
 
 - 💻 Funciona con Spotify, YouTube Music, Navegador o Reproductor nativo de windows.
