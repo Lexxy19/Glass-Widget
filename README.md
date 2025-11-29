@@ -40,7 +40,7 @@ Puedes descargar la última versión del instalador desde aquí:
 
 1. Clona el repositorio
    ```bash
-   git clone https://github.com/yourusername/glass-widget.git
+   git clone https://github.com/Lexxy19/Glass-Widget.git
    cd glass-widget
 
 2. Instala las dependencias
